@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useCallback, useEffect, useState } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
 import { AppDiv } from './App.styled';
 import { ImageGallery } from './ImageGallery/ImageGallery';
@@ -16,23 +17,6 @@ export const App = () => {
   const [showModal, setShowModal] = useState(false);
   const [showLoad, setShowLoad] = useState(false);
 
-  const searchService = async () => {
-    setShowLoad(true);
-    setShowBtn(false);
-
-    const q = querry;
-
-    try {
-      const imags = await fetchImages({ q });
-      setItems(imags.hits);
-      setShowBtn(imags.hits.length >= 15);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setShowLoad(false);
-    }
-  };
-
   const handleSearch = e => {
     e.preventDefault();
 
@@ -40,24 +24,6 @@ export const App = () => {
 
     setQuerry(q);
     setPage(1);
-  };
-
-  const loadMoreService = async () => {
-    setShowLoad(true);
-    setShowBtn(false);
-
-    try {
-      const imags = await fetchImages({
-        q: querry,
-        page: page,
-      });
-      setItems(prev => [...prev, ...imags.hits]);
-      setShowBtn(imags.hits.length >= 15);
-    } catch (err) {
-      console.log('Error in loadMoreService:', err);
-    } finally {
-      setShowLoad(false);
-    }
   };
 
   const handleLoadMore = () => {
@@ -74,14 +40,47 @@ export const App = () => {
     setSelectedImage('');
   };
 
+  const searchService = useCallback(async () => {
+    setShowLoad(true);
+    setShowBtn(false);
+
+    const q = querry;
+
+    try {
+      const imags = await fetchImages({ q });
+      setItems(imags.hits);
+      setShowBtn(imags.hits.length >= 15);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setShowLoad(false);
+    }
+  }, [querry, page]);
+
+  const loadMoreService = useCallback(async () => {
+    setShowLoad(true);
+    setShowBtn(false);
+
+    try {
+      const imags = await fetchImages({
+        q: querry,
+        page: page,
+      });
+      setItems(prev => [...prev, ...imags.hits]);
+      setShowBtn(imags.hits.length >= 15);
+    } catch (err) {
+      console.log('Error in loadMoreService:', err);
+    } finally {
+      setShowLoad(false);
+    }
+  }, [page]);
+
   useEffect(() => {
     if (querry && page === 1) searchService();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [querry, page]);
 
   useEffect(() => {
     if (page !== 1) loadMoreService();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   return (
