@@ -1,19 +1,15 @@
-import { Component } from 'react';
-
-export class ImageGalleryItem extends Component {
-  handleClick = () => {
-    this.props.onOpenModal(this.props.item.largeImageURL);
-  };
-
-  render() {
-    return (
-      <li className="ImageGalleryItem" onClick={this.handleClick}>
-        <img
-          src={this.props.item.webformatURL}
-          alt={this.props.item.tags}
-          className="ImageGalleryItem-image"
-        />
-      </li>
-    );
+export const ImageGalleryItem = props => {
+  function handleClick() {
+    props.onOpenModal(props.item.largeImageURL);
   }
-}
+
+  return (
+    <li className="ImageGalleryItem" onClick={handleClick}>
+      <img
+        src={props.item.webformatURL}
+        alt={props.item.tags}
+        className="ImageGalleryItem-image"
+      />
+    </li>
+  );
+};

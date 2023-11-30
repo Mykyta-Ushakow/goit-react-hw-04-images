@@ -1,36 +1,32 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { Header } from './Searchbar.styled';
 
-export class Searchbar extends Component {
-  state = { input: '' };
+export const Searchbar = props => {
+  const [input, setInput] = useState();
 
-  onType = e => {
-    const field = e.target.name;
+  function onType(e) {
     const value = e.target.value;
-
-    this.setState({ [field]: value });
-  };
-
-  render() {
-    return (
-      <Header className="searchbar">
-        <form className="SearchForm" onSubmit={this.props.onSubmit}>
-          <button type="submit" className="SearchForm-button" name="button">
-            <span className="button-label">Search</span>
-          </button>
-
-          <input
-            className="SearchForm-input"
-            type="text"
-            name="input"
-            value={this.state.input || ''}
-            onChange={this.onType}
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-          />
-        </form>
-      </Header>
-    );
+    setInput(value);
   }
-}
+
+  return (
+    <Header className="searchbar">
+      <form className="SearchForm" onSubmit={props.onSubmit}>
+        <button type="submit" className="SearchForm-button" name="button">
+          <span className="button-label">Search</span>
+        </button>
+
+        <input
+          className="SearchForm-input"
+          type="text"
+          name="input"
+          value={input || ''}
+          onChange={onType}
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+        />
+      </form>
+    </Header>
+  );
+};
