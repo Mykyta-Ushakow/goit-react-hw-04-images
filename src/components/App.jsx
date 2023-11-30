@@ -78,13 +78,8 @@ export const App = () => {
 
   useEffect(() => {
     if (querry && page === 1) searchService();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [querry, page]);
-
-  useEffect(() => {
     if (page !== 1) loadMoreService();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [querry, page, searchService, loadMoreService]);
 
   return (
     <AppDiv>
