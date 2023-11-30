@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useState } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
 import { AppDiv } from './App.styled';
@@ -55,6 +54,7 @@ export const App = () => {
     } finally {
       setShowLoad(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [querry, page]);
 
   const loadMoreService = useCallback(async () => {
@@ -73,14 +73,17 @@ export const App = () => {
     } finally {
       setShowLoad(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   useEffect(() => {
     if (querry && page === 1) searchService();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [querry, page]);
 
   useEffect(() => {
     if (page !== 1) loadMoreService();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   return (

@@ -8,6 +8,7 @@ const Modal = props => {
     return () => {
       window.removeEventListener('keydown', handleClose);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleClose(e) {
